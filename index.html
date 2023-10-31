@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webpage Tester</title>
+      <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    #codeLoader {
+      border:0 !important;
+      margin:0 !important;
+      width:100%;
+      height:100%;
+      box-sizing:inherit;
+      line-height:0;
+      /*height: 100%;*/
+      /*width: 50%;*/
+    }
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+    }
+    body{
+        overflow:hidden ;
+        display:grid;
+        grid-template-columns:max-content auto;
+    }
+    #codeArea {
+      padding: 0.5rem;
+      resize:horizontal;
+      height:100% !important;
+      /*width: 49vw;*/
+      font-family: consolas, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #iframeParent{
+        height:100%;
+        width:auto;
+    }
+  </style>
+  </head>
+  <body>
+    <textarea style="width:100%" spellcheck="false" id="codeArea" placeholder="Start writing your code..."><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Hello World
+</body>
+</html>
+    </textarea>
+    <div id="iframeParent"><iframe src="data:text/html;,Hello%20World" id="codeLoader"></iframe></div>
+    <script>
+    let ifP = document.getElementById('iframeParent')
+    let emmetAbb = '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>Document</title>\n</head>\n<body>\n    Hello World\n</body>\n</html>'  
+      function reloadFrame(appendLoc, source) {
+        if(typeof codeLoader!='undefined'){
+        let codeLoader = document.getElementById("codeLoader");
+        codeLoader.remove();
+          }
+        let temp = document.createElement("iframe");
+        temp.setAttribute("id", "codeLoader");
+        temp.setAttribute("frameborder","0")
+        temp.setAttribute("marginwidth","0")
+        temp.setAttribute("marginheight","0")
+        temp.src = source;
+        appendLoc.appendChild(temp);
+      }
+      codeArea.addEventListener("input", () => {
+        let code = document.getElementById("codeArea");
+        if (code.value=="!!!"){
+            code.value=emmetAbb;
+        }
+        let codeObj = new Blob([code.value], { type: "text/html" });
+        codeObj = URL.createObjectURL(codeObj);
+        reloadFrame(ifP, codeObj);
+      });
+    </script>
+  </body>
+</html>
